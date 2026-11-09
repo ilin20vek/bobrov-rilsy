@@ -1,10 +1,12 @@
-# Страница рилсов Боброва из подкаста с Игорем Малининым (WIVcEjFK47k), 8 роликов, без предложения и цен.
+# Страница рилсов Боброва из подкаста с Игорем Малининым (WIVcEjFK47k), число роликов считается по v/, без предложения и цен.
 # Прохор, 04.11.2026, задача 1384, по образцу otdacha/stranicy/bobrov/sobrat.py. Собирает index.html из dannye.json; ролики - v/, обложки - o/.
 import json, html, os
 B = os.path.dirname(os.path.abspath(__file__))
 D = json.load(open(os.path.join(B, "dannye.json"), encoding="utf-8"))
 for r in D:
     r["est"] = os.path.exists(os.path.join(B, "v", r["id"] + ".mp4"))
+N = sum(r["est"] for r in D)
+SLOVO = {5:"Пять",6:"Шесть",7:"Семь",8:"Восемь",9:"Девять",10:"Десять",11:"Одиннадцать",12:"Двенадцать",13:"Тринадцать",14:"Четырнадцать"}.get(N, str(N))
 TEG = "#бизнес #предприниматель #маркетинг #ИИ #нейросети #shorts"
 def tekst(r):
     return f"{r['nazv']}\n\n{r['opis']}\n\nПолное видео: https://youtu.be/WIVcEjFK47k?t={r['t']}\n\n{TEG}"
@@ -17,7 +19,7 @@ stranica = f'''<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ilin20vek.github.io/bobrov-rilsy/">
-<meta property="og:title" content="Дмитрий Бобров и Игорь Малинин: 8 коротких роликов">
+<meta property="og:title" content="Дмитрий Бобров и Игорь Малинин: {N} коротких роликов">
 <meta property="og:description" content="ИИ-агенты, продажи, маркетплейсы, ошибка собственника, личный бренд - короткие ролики из подкаста.">
 <meta property="og:image" content="https://ilin20vek.github.io/bobrov-rilsy/o/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -65,10 +67,10 @@ footer{{text-align:center;color:var(--mut);padding:24px 16px 56px;font-size:14px
   <div class="bpr">Бизнес по-русски</div>
   <div class="metka">Короткие ролики</div>
   <h1>Дмитрий Бобров и Игорь Малинин</h1>
-  <p class="lead">Восемь коротких роликов из подкаста: ИИ-агенты, продажи, маркетплейсы, ошибка собственника, личный бренд. С вопросом в первую секунду, титрами и обложкой.</p>
+  <p class="lead">{SLOVO} коротких роликов из подкаста: ИИ-агенты, продажи, маркетплейсы, ошибка собственника, личный бренд. С вопросом в первую секунду, титрами и обложкой.</p>
 </header>
 <main class="w">
-  <h2>Восемь роликов</h2>
+  <h2>{SLOVO} роликов</h2>
   <p class="pod">Нажмите на обложку: ролик запустится, рядом название, описание и кнопки «скачать».</p>
   <div class="setka">{plitki}
   </div>
